@@ -66,105 +66,7 @@ label {
     display:block;
 }
 </style>
-<script type='text/javascript'>//<![CDATA[ 
-$(window).load(function(){
-//making :contains case-insensitive
-jQuery.expr[':'].contains = function (a, i, m) {
-    return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
-};
-(function ($) {
-    $.fn.autocomplete = function () {
-        var activelist;
 
-        function init() {
-            //Only polyfill if not natively supported in the browser
-            if ('list' in document.createElement('input') && 'options' in document.createElement('datalist') && window.HTMLDataListElement) {
-                return;
-            }
-            var input = $(this).wrap('<div class="wrapper"></div>'),
-                datalist = $('#' + input.attr('list')).hide(),
-                select = $('select', datalist),
-                replacelist = $('<ul class="datalist"></ul>').insertAfter(input).hide(),
-                options = $('option[value]', datalist).each(function () {
-                    var item = $('<li data-value="' + $(this).attr('value') + '"' + ($(this).attr('selected') ? 'class="selected"' : '') + '>' + ($(this).text() || $(this).attr('value')) + '</li>')
-                        .click(function () {
-                        $(this).trigger('select');
-                    }).appendTo(replacelist)
-                        .bind('select', function () {
-                        $('li.selected', replacelist).removeClass('selected');
-                        $(this).addClass('selected');
-                        input.val($(this).text());
-                        select.val($(this).attr('data-value'));
-                    });
-                });
-
-            input.focus(function () {
-                activelist = replacelist;
-                replacelist.slideDown(200);
-            }).blur(function () {
-                setTimeout(function () {
-                    activelist.slideUp(200);
-                }, 500);
-            }).keyup(function (e) {
-                var item, selected, index;
-                e = window.event || e;
-                switch (e.keyCode) {
-                    case 37:
-                        // Key left.
-
-                        break;
-                    case 38:
-                        // Key up.
-                        items = $('li:visible', replacelist);
-                        selected = $('li.selected', replacelist);
-                        index = items.index(selected);
-                        if (index < 0) {
-                            items.last().trigger('select');
-                        } else if (index > 0) {
-                            items.eq(index - 1).trigger('select');
-                        }
-                        break;
-                    case 39:
-                        // Key right.
-
-                        break;
-                    case 40:
-                        // Key down.
-                        items = $('li:visible', replacelist);
-                        selected = $('li.selected', replacelist);
-                        index = items.index(selected);
-                        if (index < 0) {
-                            items.first().trigger('select');
-                        } else if (index < items.length) {
-                            items.eq(index + 1).trigger('select');
-                        }
-                        break;
-                    case 13:
-                        //return
-                        e.preventDefault();
-                        input.trigger('blur');
-                        break;
-                    default:
-                        if (input.val().length) {
-                            $('li.match', replacelist).removeClass('match');
-                            $('li:contains(' + input.val() + ')', replacelist.addClass('filter')).addClass('match');
-                        } else {
-                            $('li.match', replacelist).removeClass('match');
-                            replacelist.removeClass('filter');
-                        }
-                }
-            });
-
-        }
-        return this.each(init);
-    };
-    $(function () {
-        $('input[list]').autocomplete();
-    });
-})(jQuery)
-});//]]>  
-
-</script>
 <!-- /datalist -->
 
 </head>
@@ -188,7 +90,8 @@ jQuery.expr[':'].contains = function (a, i, m) {
 
 <div id="search">
 <form method="get" action="http://search.corp.global.rakuten.net/en_all/search.x">
-<div class="search"><input type="text" name="q" value="" id="MF_form_phrase" autocomplete="off" tabindex="1" list="searchlist" placeholder="search ..."></div>
+<!-- Search Box modified by Joshua Weinstein, Jan. 2013 -->
+<div class="search"><input type="text" name="q" value="" id="MF_form_phrase" autocomplete="off" tabindex="1" list="searchlist" placeholder="search ..." autofocus="autofocus"></div>
 <datalist id="searchlist" name="searchlist">
 <!--[if lte IE 9]><select><![endif]-->
 <option value="About Rakuten"></option>
@@ -481,11 +384,110 @@ JavaScriptの設定がオンになっていないため、一部ご利用いた�
 <!-- ========== /footer ========== -->
 
 </div><!-- /#container -->
-<script src="/corp/pc_files/shared/js/mf/suggest_ext.js#unitid=en_all" type="text/javascript" charset="UTF-8"></script>
-<script src="/corp/pc_files/shared/js/jquery-1.7.2.min.js" type="text/javascript"></script>
-<script src="/corp/pc_files/shared/js/jquery.tools.min.js" type="text/javascript"></script>
-<script src="/corp/pc_files/shared/js/common.js" type="text/javascript"></script>
+<script src="http://global.rakuten.com/corp/pc_files/shared/js/mf/suggest_ext.js#unitid=en_all" type="text/javascript" charset="UTF-8"></script>
+<script src="http://global.rakuten.com/corp/pc_files/shared/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="http://global.rakuten.com/corp/pc_files/shared/js/jquery.tools.min.js" type="text/javascript"></script>
+<script src="http://global.rakuten.com/corp/pc_files/shared/js/common.js" type="text/javascript"></script>
 <script type="text/javascript" src="//jp.rakuten-static.com/1/js/anl/crp/s_code-pr.js"></script>
+<script type='text/javascript'>//<![CDATA[ 
+jQuery(window).load(function(){
+//making :contains case-insensitive
+jQuery.expr[':'].contains = function (a, i, m) {
+    return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+};
+(function ($) {
+    $.fn.autocomplete = function () {
+        var activelist;
+
+        function init() {
+            //Only polyfill if not natively supported in the browser
+            if ('list' in document.createElement('input') && 'options' in document.createElement('datalist') && window.HTMLDataListElement) {
+                return;
+            }
+            var input = $(this).wrap('<div class="wrapper"></div>'),
+                datalist = $('#' + input.attr('list')).hide(),
+                select = $('select', datalist),
+                replacelist = $('<ul class="datalist"></ul>').insertAfter(input).hide(),
+                options = $('option[value]', datalist).each(function () {
+                    var item = $('<li data-value="' + $(this).attr('value') + '"' + ($(this).attr('selected') ? 'class="selected"' : '') + '>' + ($(this).text() || $(this).attr('value')) + '</li>')
+                        .click(function () {
+                        $(this).trigger('select');
+                    }).appendTo(replacelist)
+                        .bind('select', function () {
+                        $('li.selected', replacelist).removeClass('selected');
+                        $(this).addClass('selected');
+                        input.val($(this).text());
+                        select.val($(this).attr('data-value'));
+                    });
+                });
+
+            input.focus(function () {
+                activelist = replacelist;
+                replacelist.slideDown(200);
+            }).blur(function () {
+                setTimeout(function () {
+                    activelist.slideUp(200);
+                }, 500);
+            }).keyup(function (e) {
+                var item, selected, index;
+                e = window.event || e;
+                switch (e.keyCode) {
+                    case 37:
+                        // Key left.
+
+                        break;
+                    case 38:
+                        // Key up.
+                        items = $('li:visible', replacelist);
+                        selected = $('li.selected', replacelist);
+                        index = items.index(selected);
+                        if (index < 0) {
+                            items.last().trigger('select');
+                        } else if (index > 0) {
+                            items.eq(index - 1).trigger('select');
+                        }
+                        break;
+                    case 39:
+                        // Key right.
+
+                        break;
+                    case 40:
+                        // Key down.
+                        items = $('li:visible', replacelist);
+                        selected = $('li.selected', replacelist);
+                        index = items.index(selected);
+                        if (index < 0) {
+                            items.first().trigger('select');
+                        } else if (index < items.length) {
+                            items.eq(index + 1).trigger('select');
+                        }
+                        break;
+                    case 13:
+                        //return
+                        e.preventDefault();
+                        input.trigger('blur');
+                        break;
+                    default:
+                        if (input.val().length) {
+                            $('li.match', replacelist).removeClass('match');
+                            $('li:contains(' + input.val() + ')', replacelist.addClass('filter')).addClass('match');
+                        } else {
+                            $('li.match', replacelist).removeClass('match');
+                            replacelist.removeClass('filter');
+                        }
+                }
+            });
+
+        }
+        return this.each(init);
+    };
+    $(function () {
+        $('input[list]').autocomplete();
+    });
+})(jQuery)
+});//]]>  
+
+</script>
 <script type="text/javascript"><!--
 void(s.t())//--></script>
 </body>
