@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Rakuten, Inc.: Sitemap</title>
+<base href="http://global.rakuten.com/corp/sitemap/" />
 <meta name="keywords" content="">
 <meta name="description" content="Sitemap for Rakuten Inc. official global website.">
 
@@ -19,6 +20,152 @@
 <meta property="og:site_name" content="Rakuten, Inc.">
 <meta property="fb:app_id" content="284262551638042">
 <!-- /SNS -->
+
+<!-- datalist -->
+<style type='text/css'>
+datalist {
+    display:inline-block;
+}
+.wrapper {
+    position:relative;
+    display:inline-block;
+}
+.datalist {
+    display:inline-block;
+    position:absolute;
+    overflow:auto;
+    max-height:200px;
+    max-width:200px;
+    padding:0;
+    margin:0;
+    background: #eee;
+    border:1px solid #666;
+    min-width:150px;
+}
+.datalist li {
+    cursor:pointer;
+    padding: 2px 5px;
+    margin:0;
+    list-style:none;
+    font-size:0.8em;
+}
+.datalist li:hover {
+    background: #ccc;
+}
+.datalist.filter li {
+    display:none;
+}
+.datalist.filter li.match {
+    display:block;
+}
+.datalist li.selected {
+    color: #fff;
+    background: #333;
+}
+label {
+    display:block;
+}
+</style>
+<script type='text/javascript'>//<![CDATA[ 
+$(window).load(function(){
+//making :contains case-insensitive
+jQuery.expr[':'].contains = function (a, i, m) {
+    return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+};
+(function ($) {
+    $.fn.autocomplete = function () {
+        var activelist;
+
+        function init() {
+            //Only polyfill if not natively supported in the browser
+            if ('list' in document.createElement('input') && 'options' in document.createElement('datalist') && window.HTMLDataListElement) {
+                return;
+            }
+            var input = $(this).wrap('<div class="wrapper"></div>'),
+                datalist = $('#' + input.attr('list')).hide(),
+                select = $('select', datalist),
+                replacelist = $('<ul class="datalist"></ul>').insertAfter(input).hide(),
+                options = $('option[value]', datalist).each(function () {
+                    var item = $('<li data-value="' + $(this).attr('value') + '"' + ($(this).attr('selected') ? 'class="selected"' : '') + '>' + ($(this).text() || $(this).attr('value')) + '</li>')
+                        .click(function () {
+                        $(this).trigger('select');
+                    }).appendTo(replacelist)
+                        .bind('select', function () {
+                        $('li.selected', replacelist).removeClass('selected');
+                        $(this).addClass('selected');
+                        input.val($(this).text());
+                        select.val($(this).attr('data-value'));
+                    });
+                });
+
+            input.focus(function () {
+                activelist = replacelist;
+                replacelist.slideDown(200);
+            }).blur(function () {
+                setTimeout(function () {
+                    activelist.slideUp(200);
+                }, 500);
+            }).keyup(function (e) {
+                var item, selected, index;
+                e = window.event || e;
+                switch (e.keyCode) {
+                    case 37:
+                        // Key left.
+
+                        break;
+                    case 38:
+                        // Key up.
+                        items = $('li:visible', replacelist);
+                        selected = $('li.selected', replacelist);
+                        index = items.index(selected);
+                        if (index < 0) {
+                            items.last().trigger('select');
+                        } else if (index > 0) {
+                            items.eq(index - 1).trigger('select');
+                        }
+                        break;
+                    case 39:
+                        // Key right.
+
+                        break;
+                    case 40:
+                        // Key down.
+                        items = $('li:visible', replacelist);
+                        selected = $('li.selected', replacelist);
+                        index = items.index(selected);
+                        if (index < 0) {
+                            items.first().trigger('select');
+                        } else if (index < items.length) {
+                            items.eq(index + 1).trigger('select');
+                        }
+                        break;
+                    case 13:
+                        //return
+                        e.preventDefault();
+                        input.trigger('blur');
+                        break;
+                    default:
+                        if (input.val().length) {
+                            $('li.match', replacelist).removeClass('match');
+                            $('li:contains(' + input.val() + ')', replacelist.addClass('filter')).addClass('match');
+                        } else {
+                            $('li.match', replacelist).removeClass('match');
+                            replacelist.removeClass('filter');
+                        }
+                }
+            });
+
+        }
+        return this.each(init);
+    };
+    $(function () {
+        $('input[list]').autocomplete();
+    });
+})(jQuery)
+});//]]>  
+
+</script>
+<!-- /datalist -->
 
 </head>
 
@@ -41,8 +188,79 @@
 
 <div id="search">
 <form method="get" action="http://search.corp.global.rakuten.net/en_all/search.x">
-<div class="search"><input type="text" name="q" value="" id="MF_form_phrase" autocomplete="off" tabindex="1"></div>
-<div class="searchBtn"><input type="submit" value="検索" tabindex="2"></div>
+<div class="search"><input type="text" name="q" value="" id="MF_form_phrase" autocomplete="off" tabindex="1" list="searchlist" placeholder="search ..."></div>
+<datalist id="searchlist" name="searchlist">
+<!--[if lte IE 9]><select><![endif]-->
+<option value="About Rakuten"></option>
+<option value="About Us"></option>
+<option value="All Rakuten Services"></option>
+<option value="Americas"></option>
+<option value="Art Files"></option>
+<option value="Asia &amp; Oceania"></option>
+<option value="Basic Principles"></option>
+<option value="Brand Management Policy"></option>
+<option value="Brand Rules"></option>
+<option value="Buy.com"></option>
+<option value="Careers"></option>
+<option value="Company's Mission"></option>
+<option value="Corporate Governance"></option>
+<option value="Corporate Overview"></option>
+<option value="Corporate Philosophy"></option>
+<option value="CSR Management"></option>
+<option value="Disclaimer"></option>
+<option value="Eco Operation"></option>
+<option value="Europe"></option>
+<option value="Events &amp; Updates"></option>
+<option value="FAQ"></option>
+<option value="Financial Performance"></option>
+<option value="Global"></option>
+<option value="Green Energy"></option>
+<option value="Home"></option>
+<option value="Investors"></option>
+<option value="IR Library"></option>
+<option value="Job Opportunities"></option>
+<option value="Kobo"></option>
+<option value="Major Businesses"></option>
+<option value="Management Policy"></option>
+<option value="Management Team"></option>
+<option value="Media Resources"></option>
+<option value="Media Room"></option>
+<option value="Message from CEO"></option>
+<option value="New Future"></option>
+<option value="New grads &amp; MBA"></option>
+<option value="Office Locations"></option>
+<option value="Our History"></option>
+<option value="Our Strengths"></option>
+<option value="Page Top"></option>
+<option value="Play.com"></option>
+<option value="Press Releases"></option>
+<option value="PriceMinister"></option>
+<option value="Rakuten Belanja Online"></option>
+<option value="Rakuten EC Service"></option>
+<option value="Rakuten Global Market"></option>
+<option value="Rakuten Golf"></option>
+<option value="Rakuten Group Privacy Policy"></option>
+<option value="Rakuten Ichiba"></option>
+<option value="Rakuten LinkShare"></option>
+<option value="Rakuten Loyalty"></option>
+<option value="Rakuten Online Shopping"></option>
+<option value="Rakuten Shopping"></option>
+<option value="Rakuten Travel"></option>
+<option value="Rakuten Worldwide"></option>
+<option value="Rakuten.at Shopping"></option>
+<option value="Rakuten.de Shopping"></option>
+<option value="Read more"></option>
+<option value="Recruitment Privacy Policy"></option>
+<option value="Sitemap"></option>
+<option value="Stakeholder Engagement"></option>
+<option value="Stocks &amp; Bonds"></option>
+<option value="Sustainability"></option>
+<option value="TARAD.com"></option>
+<option value="Wuaki.tv"></option>
+<option value="日本語"></option>
+<!--[if lte IE 9]></select><![endif]-->
+</datalist>
+<div class="searchBtn"><input type="submit" value="FIND" tabindex="2"></div>
 <input type="hidden" name="ie" value="UTF-8">
 <input type="hidden" name="page" value="1">
 </form>
