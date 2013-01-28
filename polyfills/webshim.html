@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>datalist example using different options - jsFiddle demo by trixta</title>
+  
+  <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+  <link rel="stylesheet" type="text/css" href="http://fiddle.jshell.net/css/normalize.css">
+  
+  <link rel="stylesheet" type="text/css" href="http://fiddle.jshell.net/css/result-light.css">
+  
+    
+    
+      <script type='text/javascript' src="http://afarkas.github.com/webshim/demos/js-webshim/minified/extras/modernizr-custom.js"></script>
+    
+  
+    
+    
+      <script type='text/javascript' src="http://afarkas.github.com/webshim/demos/js-webshim/minified/polyfiller.js"></script>
+    
+  
+  <style type='text/css'>
+    /* Styles for Opera Style datalist */
+.options-opera-shadowdom .different-label-value span {
+     width: 49%;
+     overflow: hidden;
+}
+                    
+.options-opera-shadowdom .different-label-value .option-value {
+     display: inline-block;
+}
+
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+//implement forms (for datalist), but only if datalist is not available (forms would also implement constraint validation etc.)
+if (!Modernizr.input.list) {
+    jQuery.webshims.setOptions('forms', {
+        lightweightDatalist: true
+    });
+    jQuery.webshims.polyfill('forms');
+}
+//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <div>
+    <label for="option-input">
+        options example
+    </label>
+    <input list="options" id="option-input" /> (Firefox style)
+    <datalist id="options">
+        <!-- you have to add your option elements inside of a select element for legacy reasons -->
+        <select>
+            <option value="option 1" />
+            <option>option 2</option>
+            <option value="option value 3">option label 3</option>
+            <option value="option value 4" label="option label 4" />
+        </select>
+    </datalist>
+    
+</div>
+<div>
+    <label for="option-input-opera">
+        options example
+    </label>
+    <!-- set the class 'list-focus' and the datalist will be shown on focus -->
+    <input list="options-opera" id="option-input-opera" class="list-focus" /> (Opera style)
+    <datalist id="options-opera">
+        <!-- you have to add your option elements inside of a select element for legacy reasons -->
+        <select>
+            <option value="option 1" />
+            <option>option 2</option>
+            <option value="option value 3">option label 3</option>
+            <option value="option value 4" label="option label 4" />
+        </select>
+    </datalist>
+    </div>  
+<div>
+    <label for="option-input">
+        options example
+    </label>
+    <input type="text" placeholder="Find U.S. State" list="states" id="search"> (long list example)
+    <datalist id="states">
+        <select>
+            <option value="Alabama"></option>
+            <option value="Alaska"></option>
+            <option value="Arizona"></option>
+            <option value="Arkansas"></option>
+            <option value="California"></option>
+            <option value="Colorado"></option>
+            <option value="Connecticut"></option>
+            <option value="Delaware"></option>
+            <option value="Florida"></option>
+            <option value="Georgia"></option>
+            <option value="Hawaii"></option>
+            <option value="Idaho"></option>
+            <option value="Illinois"></option>
+            <option value="Indiana"></option>
+            <option value="Iowa"></option>
+            <option value="Kansas"></option>
+            <option value="Kentucky"></option>
+            <option value="Louisiana"></option>
+            <option value="Maine"></option>
+            <option value="Maryland"></option>
+            <option value="Massachusetts"></option>
+            <option value="Michigan"></option>
+            <option value="Minnesota"></option>
+            <option value="Mississippi"></option>
+            <option value="Missouri"></option>
+            <option value="Montana"></option>
+            <option value="Nebraska"></option>
+            <option value="Nevada"></option>
+            <option value="New Hampshire"></option>
+            <option value="New Jersey"></option>
+            <option value="New Mexico"></option>
+            <option value="New York"></option>
+            <option value="North Carolina"></option>
+            <option value="North Dakota"></option>
+            <option value="Ohio"></option>
+            <option value="Oklahoma"></option>
+            <option value="Oregon"></option>
+            <option value="Pennsylvania"></option>
+            <option value="Rhode Island"></option>
+            <option value="South Carolina"></option>
+            <option value="South Dakota"></option>
+            <option value="Tennessee"></option>
+            <option value="Texas"></option>
+            <option value="Utah"></option>
+            <option value="Vermont"></option>
+            <option value="Virginia"></option>
+            <option value="Washington"></option>
+            <option value="West Virginia"></option>
+            <option value="Wisconsin"></option>
+            <option value="Wyoming"></option>
+        </select>
+    </datalist>
+</div>
+
+  
+</body>
+
+
+</html>
+
