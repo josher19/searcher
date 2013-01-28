@@ -1,10 +1,13 @@
-var slink=jQuery.map(document.links,function(link,n) { return {'txt':link.textContent.toLowerCase(),'link':link,'position':n,toString:function() {return "["+this.txt + "]("+this.link + ")"}} })
+var slink=jQuery.map(document.links,function(link,n) { return {'txt':jQuery.trim(link.textContent.toLowerCase()),'link':link,'position':n,toString:function() {return "["+this.txt + "]("+this.link + ")"}} })
 
 // html5 shim
 if (!Array.prototype.filter) { Array.prototype.filter = function(fn) { for(var i=0,res=[],len=this.length; i < len; i += 1) { if (fn(this[i],i,this)) { res.push(this[i]); }} return res; } }
 
 // exact title
 function xmatch(keyword) { return slink.filter(function(it,n) { return it.txt.indexOf(keyword)>-1 }) }
+
+// exact title with weights
+function xmatchwt(keyword) { return slink.filter(function(it,n) { it.wt = it.txt.indexOf(keyword); it.wt2 = (1+it.txt.length); return it.wt > -1 }).sort(function(a,b) {return a.wt - b.wt || a.wt2 - b.wt2 }) }
 
 // inexact title
 function quicksearch(keyword) { return slink.sort(function(a,b) { return jaroWinklerDistance(keyword, b.txt) - jaroWinklerDistance(keyword, a.txt); }).slice(0,12).filter(uniq); }
@@ -18,7 +21,13 @@ function uniq(it,n,list) { return !n || !linkEqual(it, list[n-1]) }
 
 slink=slink.sort().filter(uniq);
 
-// Could also match url with item.link.href 
+// Convert Array to datalist with options. Returned as jQuery object.
+// Example usage: toDatalist(slink).html()
+function toDatalist(slink) { var list=jQuery('<datalist>');jQuery.map(jQuery.map(slink, function(it) { return jQuery.trim(it.link.textContent) }).filter(function(it) { return it }), function(it) { var op=jQuery('<option/>'); op.attr('value', it); return list.append(op); }); return list; 
+
+// TODO
+// 1) Tranform images to ALT tags
+// 2) Could also match url with item.link.href 
 // and combine them using Fuzzy Logic: VERY(exact title) + SOMEWHAT(url) + SOMEWHAT(inexact title)
 // and then cache the results for 1 day or until next URL is added to the list.
 
